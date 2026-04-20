@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: '/api' });
+// In production (Vercel), VITE_API_URL is set to the Render backend URL.
+// In development, fallback to '/api' which Vite proxies to localhost:3001.
+const BASE_URL = import.meta.env.VITE_API_URL || '/api';
+
+const api = axios.create({ baseURL: BASE_URL });
 
 // Attach admin token if stored
 api.interceptors.request.use((config) => {

@@ -2,18 +2,20 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const NAV = [
-  { label: 'Trang chủ', href: '/' },
-  { label: 'Tin tức',   href: '/tin-tuc' },
-  { label: 'Giải pháp', href: '/#solutions' },
-  { label: 'Sản phẩm',  href: '/#product' },
-  { label: 'Về chúng tôi', href: '/#about' },
-  { label: 'Liên hệ',   href: '/#contact' },
+  { label: 'Trang chủ',              href: '/' },
+  { label: 'Giới thiệu',             href: '/gioi-thieu' },
+  { label: 'Kiến thức QLVH toà nhà', href: '/tin-tuc?category=chuyen-nganh', full: 'Kiến thức quản lý vận hành toà nhà' },
+  { label: 'Chuyển đổi xanh',        href: '/tin-tuc?category=du-an',        full: 'Chuyển đổi xanh trong vận hành' },
+  { label: 'Building Care',           href: '/building-care',                 full: 'Sản phẩm Building Care' },
+  { label: 'Case Study',             href: '/tin-tuc?category=bao-chi',      full: 'Case Study' },
+  { label: 'Liên hệ',                href: '/lien-he' },
 ];
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
-  const [open,     setOpen]     = useState(false);
-  const { pathname } = useLocation();
+  const [open, setOpen] = useState(false);
+  const { pathname, search } = useLocation();
+  const [activeHref, setActiveHref] = useState('/');
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 60);
@@ -23,35 +25,63 @@ export default function Header() {
 
   useEffect(() => setOpen(false), [pathname]);
 
+  // Tự động detect active khi url thay đổi (vd: navigate tới /tin-tuc?category=...)
+  useEffect(() => {
+    const fullPath = pathname + search;
+    const matched = NAV.find(n => {
+      const navFull = n.href.split('#')[0]; // bỏ hash, giữ query string
+      return navFull === fullPath || navFull === pathname;
+    });
+    if (matched) {
+      setActiveHref(matched.href);
+    } else if (pathname === '/') {
+      setActiveHref('/');
+    }
+  }, [pathname, search]);
+
+  const isActive = (href) => activeHref === href;
+
   return (
-    <header className={`sticky top-0 z-50 h-[72px] flex items-center transition-all duration-300 ${
-      scrolled
-        ? 'bg-white/97 border-b border-gray-200 shadow-md backdrop-blur-md'
-        : 'bg-white/85 backdrop-blur-md'
-    }`}>
-      <div className="max-w-[1200px] mx-auto px-6 w-full flex items-center gap-8">
+    <header
+      className={`sticky top-0 z-50 h-[68px] flex items-center transition-all duration-300 ${
+        scrolled
+          ? 'bg-white/97 border-b border-gray-200 shadow-md backdrop-blur-md'
+          : 'bg-white/90 backdrop-blur-md'
+      }`}
+    >
+      <div className="max-w-[1400px] mx-auto px-5 w-full flex items-center gap-5">
 
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2.5 shrink-0">
-          <span className="text-3xl">🌿</span>
-          <div>
-            <span className="block font-[family-name:var(--font-display)] text-[15px] font-extrabold text-gray-900 leading-tight tracking-tight">
+        <Link
+          to="/"
+          className="flex items-center gap-2.5 shrink-0"
+          onClick={() => setActiveHref('/')}
+        >
+          <img
+            src="/Logo.jpg"
+            alt="Vận hành số - Chuyển đổi xanh"
+            className="h-10 w-auto object-contain"
+          />
+          <div className="hidden sm:block">
+            <span className="block font-[family-name:var(--font-display)] text-[14px] font-extrabold text-gray-900 leading-tight tracking-tight">
               Digital Transformation
             </span>
-            <span className="block text-[10px] font-semibold text-green-600 uppercase tracking-widest">
-              Smart · Green · Building
+            <span className="block text-[9px] font-semibold text-green-600 uppercase tracking-widest">
+              Vận hành số · Chuyển đổi xanh
             </span>
           </div>
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-1 flex-1">
-          {NAV.map(({ label, href }) => (
+        <nav className="hidden lg:flex items-center gap-0.5 flex-1">
+          {NAV.map(({ label, href, full }) => (
             <a
               key={label}
               href={href}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors duration-200 ${
-                pathname === href
+              title={full || label}
+              onClick={() => setActiveHref(href)}
+              className={`px-2.5 py-1.5 rounded-lg text-[12.5px] font-medium transition-colors duration-200 whitespace-nowrap ${
+                isActive(href)
                   ? 'text-green-600 bg-green-50'
                   : 'text-gray-600 hover:text-green-600 hover:bg-green-50'
               }`}
@@ -65,7 +95,7 @@ export default function Header() {
         <div className="flex items-center gap-3 ml-auto">
           <a
             href="/#contact"
-            className="hidden lg:inline-flex items-center px-5 py-2 rounded-full bg-green-600 text-white text-sm font-semibold hover:bg-green-700 transition-colors duration-200 shadow-sm"
+            className="hidden lg:inline-flex items-center px-4 py-2 rounded-full bg-green-600 text-white text-[12.5px] font-semibold hover:bg-green-700 transition-colors duration-200 shadow-sm whitespace-nowrap"
           >
             Đăng ký demo
           </a>
@@ -73,32 +103,58 @@ export default function Header() {
           {/* Hamburger */}
           <button
             onClick={() => setOpen(!open)}
-            className="lg:hidden flex flex-col gap-[5px] p-1 rounded"
+            className="lg:hidden flex flex-col gap-[5px] p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
             aria-label="menu"
           >
-            <span className={`block w-5.5 h-0.5 bg-gray-800 rounded transition-all duration-300 origin-center ${open ? 'translate-y-[7px] rotate-45' : ''}`} />
-            <span className={`block w-5.5 h-0.5 bg-gray-800 rounded transition-all duration-300 ${open ? 'opacity-0 scale-x-0' : ''}`} />
-            <span className={`block w-5.5 h-0.5 bg-gray-800 rounded transition-all duration-300 origin-center ${open ? '-translate-y-[7px] -rotate-45' : ''}`} />
+            <span
+              className={`block w-5 h-0.5 bg-gray-800 rounded transition-all duration-300 origin-center ${
+                open ? 'translate-y-[6px] rotate-45' : ''
+              }`}
+            />
+            <span
+              className={`block w-5 h-0.5 bg-gray-800 rounded transition-all duration-300 ${
+                open ? 'opacity-0 scale-x-0' : ''
+              }`}
+            />
+            <span
+              className={`block w-5 h-0.5 bg-gray-800 rounded transition-all duration-300 origin-center ${
+                open ? '-translate-y-[6px] -rotate-45' : ''
+              }`}
+            />
           </button>
         </div>
       </div>
 
       {/* Mobile menu */}
-      <div className={`lg:hidden absolute top-[72px] left-0 right-0 bg-white border-b border-gray-200 shadow-lg flex flex-col transition-all duration-200 ${
-        open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none -translate-y-2'
-      }`}>
-        {NAV.map(({ label, href }) => (
+      <div
+        className={`lg:hidden absolute top-[68px] left-0 right-0 bg-white border-b border-gray-200 shadow-lg flex flex-col transition-all duration-200 overflow-hidden ${
+          open ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
+        }`}
+      >
+        {NAV.map(({ label, href, full }) => (
           <a
             key={label}
             href={href}
-            className="px-6 py-3 text-[15px] font-medium text-gray-700 border-b border-gray-100 hover:text-green-600 hover:bg-gray-50 transition-colors"
+            onClick={() => { setOpen(false); setActiveHref(href); }}
+            className={`px-6 py-3.5 text-[14px] font-medium border-b border-gray-100 transition-colors flex items-center justify-between ${
+              isActive(href)
+                ? 'text-green-600 bg-green-50'
+                : 'text-gray-700 hover:text-green-600 hover:bg-green-50'
+            }`}
           >
-            {label}
+            <span>{full || label}</span>
+            <span className="text-gray-300 text-xs">›</span>
           </a>
         ))}
-        <a href="/#contact" className="mx-6 my-3 text-center px-5 py-2.5 rounded-full bg-green-600 text-white text-sm font-semibold">
-          Đăng ký demo
-        </a>
+        <div className="px-6 py-4">
+          <a
+            href="/#contact"
+            onClick={() => setOpen(false)}
+            className="block text-center px-5 py-2.5 rounded-full bg-green-600 text-white text-sm font-semibold hover:bg-green-700 transition-colors"
+          >
+            Đăng ký demo miễn phí
+          </a>
+        </div>
       </div>
     </header>
   );

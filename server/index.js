@@ -20,7 +20,20 @@ const UPLOADS_DIR = path.join(__dirname, 'uploads');
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 
 // ── Middleware ───────────────────────────────────────────────────────────────
-app.use(cors({ origin: 'http://localhost:5173' }));
+const allowedOrigins = [
+  'http://localhost:5173',
+  process.env.CLIENT_URL,
+].filter(Boolean);
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (e.g. mobile apps, curl, Render health checks)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS blocked: ${origin}`));
+  },
+  credentials: true,
+}));
 app.use(express.json());
 app.use('/uploads', express.static(UPLOADS_DIR));
 
@@ -63,7 +76,9 @@ const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
 
 app.post('/api/upload', requireAdmin, upload.single('image'), (req, res) => {
   if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
-  res.json({ url: `http://localhost:${PORT}/uploads/${req.file.filename}` });
+  // Use SERVER_URL env var in production, fall back to localhost in dev
+  const baseUrl = process.env.SERVER_URL || `http://localhost:${PORT}`;
+  res.json({ url: `${baseUrl}/uploads/${req.file.filename}` });
 });
 
 // Contact routes được mount bên trên qua contactRoutes

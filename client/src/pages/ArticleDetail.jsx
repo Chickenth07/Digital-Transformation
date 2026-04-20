@@ -56,11 +56,6 @@ export default function ArticleDetail() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero image */}
-      <div className="relative h-[360px] lg:h-[440px] overflow-hidden">
-        <img src={article.image} alt={article.title} className="w-full h-full object-cover"/>
-        <div className="absolute inset-0 bg-linear-to-b from-black/30 to-black/10"/>
-      </div>
 
       {/* Layout */}
       <div className="max-w-[1200px] mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12 items-start">

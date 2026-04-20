@@ -2,6 +2,9 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
+import About from './pages/About';
+import BuildingCare from './pages/BuildingCare';
+import Contact from './pages/Contact';
 import NewsList from './pages/NewsList';
 import ArticleDetail from './pages/ArticleDetail';
 import Admin from './pages/Admin';
@@ -38,12 +41,15 @@ export default function App() {
     <BrowserRouter>
       <Layout>
         <Routes>
-          <Route path="/"             element={<Home />} />
-          <Route path="/tin-tuc"      element={<NewsList />} />
-          <Route path="/bai-viet/:id" element={<ArticleDetail />} />
-          <Route path="/admin"        element={<Admin />} />
-          <Route path="/admin/*"      element={<Admin />} />
-          <Route path="*"             element={<NotFound />} />
+          <Route path="/"                element={<Home />} />
+          <Route path="/gioi-thieu"      element={<About />} />
+          <Route path="/building-care"   element={<BuildingCare />} />
+          <Route path="/lien-he"         element={<Contact />} />
+          <Route path="/tin-tuc"         element={<NewsList />} />
+          <Route path="/bai-viet/:id"    element={<ArticleDetail />} />
+          <Route path="/admin"           element={<Admin />} />
+          <Route path="/admin/*"         element={<Admin />} />
+          <Route path="*"               element={<NotFound />} />
         </Routes>
       </Layout>
     </BrowserRouter>

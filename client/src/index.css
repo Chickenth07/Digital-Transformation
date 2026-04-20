@@ -1,11 +1,14 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap');
 
+/* ── Font variables ─────────────────────────────────────────────────────────
+   Google Fonts được load qua <link> trong index.html để tránh bị block ISP.
+   Fallback: system-ui → Arial → sans-serif khi font chưa load xong.
+──────────────────────────────────────────────────────────────────────────── */
 @theme {
-  --font-sans: 'Inter', sans-serif;
-  --font-display: 'Sora', sans-serif;
-  --color-primary: #16a34a;
-  --color-primary-dark: #15803d;
+  --font-sans:    'Inter', system-ui, -apple-system, Arial, sans-serif;
+  --font-display: 'Sora', 'Inter', system-ui, Arial, sans-serif;
+  --color-primary:       #16a34a;
+  --color-primary-dark:  #15803d;
   --color-primary-light: #dcfce7;
 }
 
@@ -14,9 +17,10 @@ html { scroll-behavior: smooth; }
 body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom keyframes not available in Tailwind */
+/* ── Animations ─────────────────────────────────────────────────────────── */
 @keyframes blobFloat {
   0%, 100% { transform: translate(0, 0) scale(1); }
   50%       { transform: translate(24px, -16px) scale(1.08); }
@@ -28,19 +32,36 @@ body {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-.animate-blob    { animation: blobFloat 10s ease-in-out infinite; }
-.animate-blob-2  { animation: blobFloat 8s ease-in-out infinite; animation-delay: -3s; }
-.animate-slide-up{ animation: slideUp 0.3s ease forwards; }
+.animate-blob      { animation: blobFloat 10s ease-in-out infinite; }
+.animate-blob-2    { animation: blobFloat 8s ease-in-out infinite; animation-delay: -3s; }
+.animate-slide-up  { animation: slideUp 0.3s ease forwards; }
 .animate-spin-slow { animation: spin 0.8s linear infinite; }
+.animate-fadeIn    { animation: fadeIn 0.5s ease forwards; }
 
-/* Prose for article body */
-.prose p { margin-bottom: 1rem; line-height: 1.8; }
-.prose h2, .prose h3 { font-family: var(--font-display); font-weight: 700; margin: 1.5rem 0 0.75rem; color: #111827; }
-.prose strong { color: #111827; }
-.prose a { color: #16a34a; text-decoration: underline; }
+/* ── Prose (article body) ─────────────────────────────────────────────── */
+.prose p        { margin-bottom: 1rem; line-height: 1.8; }
+.prose h2,
+.prose h3       { font-family: var(--font-display); font-weight: 700; margin: 1.5rem 0 0.75rem; color: #111827; }
+.prose strong   { color: #111827; }
+.prose a        { color: #16a34a; text-decoration: underline; }
+.prose ul       { list-style: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+.prose ol       { list-style: decimal; padding-left: 1.5rem; margin-bottom: 1rem; }
+.prose li       { margin-bottom: 0.25rem; line-height: 1.7; }
+.prose img      { border-radius: 0.75rem; max-width: 100%; margin: 1rem 0; }
+.prose blockquote {
+  border-left: 4px solid #16a34a;
+  padding-left: 1rem;
+  color: #4b5563;
+  font-style: italic;
+  margin: 1rem 0;
+}
 
-/* Line clamp helper */
+/* ── Utilities ────────────────────────────────────────────────────────── */
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;

@@ -29,20 +29,6 @@ export default function NewsList() {
 
   return (
     <div className="min-h-screen">
-      {/* Page hero */}
-      <div className="bg-linear-to-br from-slate-900 via-green-950 to-slate-900 py-16">
-        <div className="max-w-[1200px] mx-auto px-6">
-          <span className="inline-block px-3 py-1 rounded-full bg-green-900/40 border border-green-800 text-green-300 text-xs font-bold uppercase tracking-wider mb-3">
-            📰 Kiến thức
-          </span>
-          <h1 className="font-[family-name:var(--font-display)] text-4xl lg:text-5xl font-extrabold text-white mb-3">
-            Tin tức & Chuyên ngành
-          </h1>
-          <p className="text-white/60 text-base">
-            Cập nhật xu hướng vận hành thông minh, chuyển đổi xanh trong bất động sản.
-          </p>
-        </div>
-      </div>
 
       <div className="max-w-[1200px] mx-auto px-6 py-12">
         {/* Filters */}
