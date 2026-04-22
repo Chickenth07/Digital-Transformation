@@ -126,8 +126,9 @@ const updateArticle = async (req, res) => {
     if (body.tags          !== undefined) patch.tags          = Array.isArray(body.tags)
       ? body.tags : body.tags.split(',').map(t => t.trim());
 
-    await ArticleMd.update({ where: { _id: existing._id }, attr: patch });
-    const updated = await ArticleMd.findOne({ where: { _id: existing._id } });
+    const docId = toId(existing.id);
+    await ArticleMd.update({ where: { _id: docId }, attr: patch });
+    const updated = await ArticleMd.findOne({ where: { _id: docId } });
     res.json(updated);
   } catch (err) {
     if (err.code === 11000) return res.status(409).json({ message: 'Slug đã tồn tại' });
@@ -147,7 +148,7 @@ const deleteArticle = async (req, res) => {
     });
     if (!existing) return res.status(404).json({ message: 'Không tìm thấy bài viết' });
 
-    await ArticleMd.softDelete({ where: { _id: existing._id } });
+    await ArticleMd.softDelete({ where: { _id: toId(existing.id) } });
     res.json({ success: true });
   } catch (err) {
     console.error('deleteArticle error:', err);

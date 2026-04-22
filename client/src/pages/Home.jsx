@@ -269,10 +269,8 @@ function Solutions() {
 /* ─────────────────────────── News section ──────────────────────────────── */
 const CATEGORIES = [
   { value: "", label: "Tất cả" },
-  { value: "chuyen-nganh", label: "Chuyên ngành" },
-  { value: "bao-chi", label: "Báo chí" },
-  { value: "du-an", label: "Blog Dự án" },
-  { value: "noi-bo", label: "Nội bộ" },
+  { value: "kien-thuc-toa-nha", label: "Kiến thức tòa nhà" },
+  { value: "chuyen-doi-xanh",   label: "Chuyển đổi xanh" },
 ];
 
 function NewsSection({ articles, loading }) {
@@ -435,7 +433,7 @@ function Product() {
               href="#contact"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-green-600 text-white font-semibold text-sm hover:bg-green-700 transition-colors shadow-lg shadow-green-900/40"
             >
-              🚀 Đăng ký demo miễn phí
+              🚀 Đăng ký tư vấn miễn phí
             </a>
           </div>
           <div className="shrink-0 flex flex-col items-center gap-2 bg-white/8 border border-white/15 rounded-3xl px-10 py-7 backdrop-blur-sm text-center">

@@ -80,20 +80,18 @@ export default function Footer() {
             Giải pháp
           </h4>
           <ul className="space-y-2.5">
-            {[
-              "Vận hành số",
-              "Vận hành xanh",
-              "AI phân tích năng lượng",
-            ].map((t) => (
-              <li key={t}>
-                <a
-                  href="/#solutions"
-                  className="text-sm text-gray-500 hover:text-green-500 transition-colors"
-                >
-                  {t}
-                </a>
-              </li>
-            ))}
+            {["Vận hành số", "Vận hành xanh", "AI phân tích năng lượng"].map(
+              (t) => (
+                <li key={t}>
+                  <a
+                    href="/#solutions"
+                    className="text-sm text-gray-500 hover:text-green-500 transition-colors"
+                  >
+                    {t}
+                  </a>
+                </li>
+              ),
+            )}
           </ul>
         </div>
 

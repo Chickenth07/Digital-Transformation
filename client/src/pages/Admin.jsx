@@ -10,16 +10,12 @@ const labelCls =
   "block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5";
 
 const CATS = [
-  { value: "chuyen-nganh", label: "Chuyên ngành" },
-  { value: "bao-chi", label: "Báo chí" },
-  { value: "du-an", label: "Blog Dự án" },
-  { value: "noi-bo", label: "Nội bộ" },
+  { value: "kien-thuc-toa-nha", label: "Kiến thức tòa nhà" },
+  { value: "chuyen-doi-xanh",   label: "Chuyển đổi xanh" },
 ];
 const CAT_BADGE = {
-  "chuyen-nganh": "bg-green-100 text-green-700",
-  "noi-bo": "bg-amber-100 text-amber-700",
-  "bao-chi": "bg-blue-100 text-blue-700",
-  "du-an": "bg-red-100 text-red-700",
+  "kien-thuc-toa-nha": "bg-green-100 text-green-700",
+  "chuyen-doi-xanh":   "bg-emerald-100 text-emerald-700",
 };
 const STATUS_BADGE = {
   new: "bg-blue-100 text-blue-700",
@@ -167,8 +163,8 @@ function ArticleModal({ article, onSave, onClose }) {
   const isEdit = !!article;
   const [form, setForm] = useState({
     title: article?.title || "",
-    category: article?.category || "chuyen-nganh",
-    categoryLabel: article?.categoryLabel || "Chuyên ngành",
+    category: article?.category || "kien-thuc-toa-nha",
+    categoryLabel: article?.categoryLabel || "Kiến thức tòa nhà",
     excerpt: article?.excerpt || "",
     content: article?.content || "",
     image: article?.image || "",
