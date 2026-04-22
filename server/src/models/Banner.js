@@ -1,28 +1,20 @@
-const mongoose = require('mongoose');
+const { MongooseBase } = require('../libs/MongooseBase');
 
-const bannerSchema = new mongoose.Schema(
+class BannerMd extends MongooseBase {}
+
+BannerMd.init(
+  'Banner',
   {
-    title:      { type: String, required: true, trim: true },
-    subtitle:   { type: String, trim: true },
-    image:      { type: String, required: true },
-    link:       { type: String, trim: true },
-    linkLabel:  { type: String, default: 'Xem thêm' },
-    position:   { type: Number, default: 0 },   // thứ tự hiển thị
-    active:     { type: Boolean, default: true },
+    title:     { type: String, required: true, trim: true },
+    subtitle:  { type: String, trim: true },
+    image:     { type: String, required: true },
+    link:      { type: String, trim: true },
+    linkLabel: { type: String, default: 'Xem thêm' },
+    position:  { type: Number, default: 0 },   // thứ tự hiển thị
+    active:    { type: Boolean, default: true },
+    deletedAt: { type: Date, default: null },   // soft delete support
   },
-  {
-    collection: 'banners',
-    timestamps: true,
-    toJSON: {
-      virtuals: true,
-      transform(_, ret) {
-        ret.id = ret._id.toString();
-        delete ret._id;
-        delete ret.__v;
-        return ret;
-      },
-    },
-  }
+  { collection: 'banners' }
 );
 
-module.exports = mongoose.model('Banner', bannerSchema);
+module.exports = BannerMd;

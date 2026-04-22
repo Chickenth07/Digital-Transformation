@@ -1,13 +1,18 @@
-const Banner = require('../models/Banner');
+const BannerMd = require('../models/Banner');
+const mongoose = require('mongoose');
+
+const PORT = process.env.PORT || 3001;
+
+const toId = (id) => mongoose.Types.ObjectId.isValid(id) ? new mongoose.Types.ObjectId(id) : null;
 
 // GET /api/banners – public (lấy banner active, sắp xếp theo position)
 const getBanners = async (req, res) => {
   try {
     const { all } = req.query;
-    const filter = all === 'true' ? {} : { active: true };
-    const banners = await Banner.find(filter).sort({ position: 1, createdAt: 1 }).lean({ virtuals: true });
-    const normalized = banners.map(b => ({ ...b, id: b._id.toString(), _id: undefined, __v: undefined }));
-    res.json({ banners: normalized, total: normalized.length });
+    const where = all === 'true' ? {} : { active: true };
+
+    const banners = await BannerMd.find({ where, sort: { position: 1, createdAt: 1 } });
+    res.json({ banners, total: banners.length });
   } catch (err) {
     console.error('getBanners error:', err);
     res.status(500).json({ message: 'Lỗi server' });
@@ -17,9 +22,12 @@ const getBanners = async (req, res) => {
 // GET /api/banners/:id
 const getBannerById = async (req, res) => {
   try {
-    const banner = await Banner.findById(req.params.id);
+    const _id = toId(req.params.id);
+    if (!_id) return res.status(400).json({ message: 'ID không hợp lệ' });
+
+    const banner = await BannerMd.findOne({ where: { _id } });
     if (!banner) return res.status(404).json({ message: 'Không tìm thấy banner' });
-    res.json(banner.toJSON());
+    res.json(banner);
   } catch (err) {
     res.status(500).json({ message: 'Lỗi server' });
   }
@@ -29,22 +37,22 @@ const getBannerById = async (req, res) => {
 const createBanner = async (req, res) => {
   try {
     const body = req.body;
-    const PORT = process.env.PORT || 3001;
     const imageUrl = req.file
-      ? `http://localhost:${PORT}/uploads/${req.file.filename}`
+      ? `${process.env.SERVER_URL || `http://localhost:${PORT}`}/uploads/${req.file.filename}`
       : body.image || '';
 
-    const banner = new Banner({
-      title:     body.title,
-      subtitle:  body.subtitle,
-      image:     imageUrl,
-      link:      body.link,
-      linkLabel: body.linkLabel || 'Xem thêm',
-      position:  parseInt(body.position) || 0,
-      active:    body.active === 'false' ? false : true,
+    const banner = await BannerMd.create({
+      attr: {
+        title:     body.title,
+        subtitle:  body.subtitle,
+        image:     imageUrl,
+        link:      body.link,
+        linkLabel: body.linkLabel || 'Xem thêm',
+        position:  parseInt(body.position) || 0,
+        active:    body.active !== 'false',
+      },
     });
-    await banner.save();
-    res.status(201).json(banner.toJSON());
+    res.status(201).json(banner);
   } catch (err) {
     console.error('createBanner error:', err);
     res.status(500).json({ message: 'Lỗi server' });
@@ -54,35 +62,44 @@ const createBanner = async (req, res) => {
 // PUT /api/banners/:id – admin
 const updateBanner = async (req, res) => {
   try {
-    const body = req.body;
-    const PORT = process.env.PORT || 3001;
-    const existing = await Banner.findById(req.params.id);
+    const _id = toId(req.params.id);
+    if (!_id) return res.status(400).json({ message: 'ID không hợp lệ' });
+
+    const existing = await BannerMd.findOne({ where: { _id } });
     if (!existing) return res.status(404).json({ message: 'Không tìm thấy banner' });
 
-    if (req.file) existing.image = `http://localhost:${PORT}/uploads/${req.file.filename}`;
-    else if (body.image) existing.image = body.image;
+    const body  = req.body;
+    const patch = {};
 
-    if (body.title     !== undefined) existing.title     = body.title;
-    if (body.subtitle  !== undefined) existing.subtitle  = body.subtitle;
-    if (body.link      !== undefined) existing.link      = body.link;
-    if (body.linkLabel !== undefined) existing.linkLabel = body.linkLabel;
-    if (body.position  !== undefined) existing.position  = parseInt(body.position) || 0;
-    if (body.active    !== undefined) existing.active    = body.active === 'false' ? false : true;
+    if (req.file)                  patch.image     = `${process.env.SERVER_URL || `http://localhost:${PORT}`}/uploads/${req.file.filename}`;
+    else if (body.image)           patch.image     = body.image;
+    if (body.title     !== undefined) patch.title     = body.title;
+    if (body.subtitle  !== undefined) patch.subtitle  = body.subtitle;
+    if (body.link      !== undefined) patch.link      = body.link;
+    if (body.linkLabel !== undefined) patch.linkLabel = body.linkLabel;
+    if (body.position  !== undefined) patch.position  = parseInt(body.position) || 0;
+    if (body.active    !== undefined) patch.active    = body.active !== 'false';
 
-    await existing.save();
-    res.json(existing.toJSON());
+    await BannerMd.update({ where: { _id }, attr: patch });
+    const updated = await BannerMd.findOne({ where: { _id } });
+    res.json(updated);
   } catch (err) {
     console.error('updateBanner error:', err);
     res.status(500).json({ message: 'Lỗi server' });
   }
 };
 
-// DELETE /api/banners/:id – admin
+// DELETE /api/banners/:id – admin (soft delete)
 const deleteBanner = async (req, res) => {
   try {
-    const deleted = await Banner.findByIdAndDelete(req.params.id);
-    if (!deleted) return res.status(404).json({ message: 'Không tìm thấy banner' });
-    res.json({ success: true, deleted: deleted.toJSON() });
+    const _id = toId(req.params.id);
+    if (!_id) return res.status(400).json({ message: 'ID không hợp lệ' });
+
+    const existing = await BannerMd.findOne({ where: { _id } });
+    if (!existing) return res.status(404).json({ message: 'Không tìm thấy banner' });
+
+    await BannerMd.softDelete({ where: { _id } });
+    res.json({ success: true });
   } catch (err) {
     res.status(500).json({ message: 'Lỗi server' });
   }

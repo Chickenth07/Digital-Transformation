@@ -6,8 +6,6 @@ const NAV = [
   { label: 'Giới thiệu',             href: '/gioi-thieu' },
   { label: 'Kiến thức QLVH toà nhà', href: '/tin-tuc?category=chuyen-nganh', full: 'Kiến thức quản lý vận hành toà nhà' },
   { label: 'Chuyển đổi xanh',        href: '/tin-tuc?category=du-an',        full: 'Chuyển đổi xanh trong vận hành' },
-  { label: 'Building Care',           href: '/building-care',                 full: 'Sản phẩm Building Care' },
-  { label: 'Case Study',             href: '/tin-tuc?category=bao-chi',      full: 'Case Study' },
   { label: 'Liên hệ',                href: '/lien-he' },
 ];
 
@@ -63,11 +61,11 @@ export default function Header() {
             className="h-10 w-auto object-contain"
           />
           <div className="hidden sm:block">
-            <span className="block font-[family-name:var(--font-display)] text-[14px] font-extrabold text-gray-900 leading-tight tracking-tight">
-              Digital Transformation
+            <span className="block font-[family-name:var(--font-display)] text-[15px] font-extrabold text-gray-900 leading-tight tracking-tight">
+              Vận hành số
             </span>
             <span className="block text-[9px] font-semibold text-green-600 uppercase tracking-widest">
-              Vận hành số · Chuyển đổi xanh
+              Chuyển đổi xanh
             </span>
           </div>
         </Link>

@@ -42,10 +42,10 @@ export default function Footer() {
             />
             <div>
               <strong className="block text-[15px] font-extrabold text-white font-[family-name:var(--font-display)]">
-                Digital Transformation
+                Vận hành số
               </strong>
               <small className="text-[10px] font-semibold text-green-500 uppercase tracking-widest">
-                Smart · Green · Building
+                Chuyển đổi xanh
               </small>
             </div>
           </div>
@@ -83,7 +83,6 @@ export default function Footer() {
             {[
               "Vận hành số",
               "Vận hành xanh",
-              "Building Care",
               "AI phân tích năng lượng",
             ].map((t) => (
               <li key={t}>
@@ -157,7 +156,7 @@ export default function Footer() {
 
       <div className="border-t border-white/8 py-4">
         <div className="max-w-[1200px] mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-gray-600">
-          <span>© 2026 Digital Transformation. Bảo lưu mọi quyền.</span>
+          <span>© 2026 Vận hành số · Chuyển đổi xanh. Bảo lưu mọi quyền.</span>
           <span>Vận hành thông minh – Bền vững tương lai</span>
         </div>
       </div>

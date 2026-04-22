@@ -120,7 +120,7 @@ export default function ArticleDetail() {
         <aside className="flex flex-col gap-6">
           {/* CTA card */}
           <div className="bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-2xl p-6">
-            <h3 className="text-[15px] font-bold text-gray-900 mb-2">🌿 Building Care</h3>
+            <h3 className="text-[15px] font-bold text-gray-900 mb-2">🌿 Vận hành số · Chuyển đổi xanh</h3>
             <p className="text-sm text-gray-600 leading-relaxed mb-4">
               Nền tảng vận hành thông minh & xanh cho tòa nhà hiện đại.
             </p>

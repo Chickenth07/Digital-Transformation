@@ -425,7 +425,7 @@ function Product() {
               🏢 Sản phẩm
             </span>
             <h2 className="font-[family-name:var(--font-display)] text-3xl lg:text-4xl font-extrabold text-white mb-3">
-              Building Care
+              Vận hành số · Chuyển đổi xanh
             </h2>
             <p className="text-white/60 max-w-md leading-relaxed mb-6">
               Nền tảng quản lý vận hành thông minh all-in-one. Smart & Green —

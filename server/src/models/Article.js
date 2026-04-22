@@ -1,6 +1,9 @@
-const mongoose = require('mongoose');
+const { MongooseBase } = require('../libs/MongooseBase');
 
-const articleSchema = new mongoose.Schema(
+class ArticleMd extends MongooseBase {}
+
+ArticleMd.init(
+  'Article',
   {
     title:         { type: String, required: true, trim: true },
     slug:          { type: String, required: true, unique: true, trim: true },
@@ -13,23 +16,14 @@ const articleSchema = new mongoose.Schema(
     publishedAt:   { type: Date, default: Date.now },
     featured:      { type: Boolean, default: false },
     tags:          { type: [String], default: [] },
+    deletedAt:     { type: Date, default: null },  // soft delete support
   },
   {
-    collection: 'blog',   // ← map đúng collection "blog" trong database digital_transformation
-    timestamps: true,     // tự thêm createdAt & updatedAt
-    toJSON: {
-      virtuals: true,
-      transform(_, ret) {
-        ret.id = ret._id.toString();
-        delete ret._id;
-        delete ret.__v;
-        return ret;
-      },
-    },
+    collection: 'blog', // map đúng collection "blog" trong DB
   }
 );
 
-// Text index để full-text search (title, excerpt, content)
-articleSchema.index({ title: 'text', excerpt: 'text', content: 'text' });
+// Text index để full-text search
+ArticleMd.model.schema.index({ title: 'text', excerpt: 'text', content: 'text' });
 
-module.exports = mongoose.model('Article', articleSchema);
+module.exports = ArticleMd;
