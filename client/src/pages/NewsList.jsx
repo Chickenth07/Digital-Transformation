@@ -7,22 +7,23 @@ const CATEGORIES = [
   { value: "", label: "Tất cả" },
   { value: "kien-thuc-toa-nha", label: "Kiến thức tòa nhà" },
   { value: "chuyen-doi-xanh", label: "Chuyển đổi xanh" },
+  { value: "chuyen-doi-so", label: "Chuyển đổi số" },
 ];
 
 export default function NewsList() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const cat    = searchParams.get("category") || "";
+  const cat = searchParams.get("category") || "";
   const search = searchParams.get("q") || "";
 
-  const [articles, setArticles]     = useState([]);
-  const [loading, setLoading]       = useState(true);
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [localSearch, setLocalSearch] = useState(search);
 
   // Fetch khi cat hoặc search (từ URL) thay đổi
   useEffect(() => {
     setLoading(true);
     const p = new URLSearchParams();
-    if (cat)    p.append("category", cat);
+    if (cat) p.append("category", cat);
     if (search) p.append("q", search);
     api
       .get(`/articles?${p}`)
@@ -33,7 +34,7 @@ export default function NewsList() {
 
   const handleCat = (value) => {
     const next = new URLSearchParams();
-    if (value)  next.set("category", value);
+    if (value) next.set("category", value);
     if (search) next.set("q", search);
     setSearchParams(next, { replace: true });
   };
@@ -41,7 +42,7 @@ export default function NewsList() {
   const handleSearch = (value) => {
     setLocalSearch(value);
     const next = new URLSearchParams();
-    if (cat)   next.set("category", cat);
+    if (cat) next.set("category", cat);
     if (value) next.set("q", value);
     setSearchParams(next, { replace: true });
   };
