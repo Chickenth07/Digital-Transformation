@@ -50,8 +50,10 @@ function BannerSlider({ banners }) {
               alt={b.title}
               className="w-full h-full object-cover"
             />
-            {/* Overlay gradient */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
+            {/* Overlay gradient (chỉ hiện khi có text) */}
+            {(b.title || b.subtitle) && (
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
+            )}
           </div>
         ))}
       </div>
