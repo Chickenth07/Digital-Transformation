@@ -36,7 +36,7 @@ function BannerSlider({ banners }) {
   return (
     <section
       className="relative overflow-hidden"
-      style={{ aspectRatio: "16/5", minHeight: "220px", maxHeight: "520px" }}
+      style={{ aspectRatio: "21/9", minHeight: "250px", maxHeight: "650px" }}
     >
       {/* Slides */}
       <div className="absolute inset-0">
