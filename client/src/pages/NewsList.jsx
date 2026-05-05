@@ -6,8 +6,8 @@ import ArticleCard from "../components/ArticleCard";
 const CATEGORIES = [
   { value: "", label: "Tất cả" },
   { value: "kien-thuc-toa-nha", label: "Kiến thức tòa nhà" },
-  { value: "chuyen-doi-so",    label: "Chuyển đổi số" },
-  { value: "chuyen-doi-xanh",  label: "Chuyển đổi xanh" },
+  { value: "chuyen-doi-so", label: "Chuyển đổi số" },
+  { value: "chuyen-doi-xanh", label: "Chuyển đổi xanh" },
 ];
 
 export default function NewsList() {
@@ -18,6 +18,12 @@ export default function NewsList() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [localSearch, setLocalSearch] = useState(search);
+  const [page, setPage] = useState(1);
+  const ITEMS_PER_PAGE = 6;
+
+  useEffect(() => {
+    setPage(1);
+  }, [cat, search]);
 
   // Fetch khi cat hoặc search (từ URL) thay đổi
   useEffect(() => {
@@ -51,7 +57,7 @@ export default function NewsList() {
     <div className="min-h-screen">
       <div className="max-w-[1200px] mx-auto px-6 py-12">
         {/* Filters */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+        {/* <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
           <div className="flex flex-wrap gap-2">
             {CATEGORIES.map((c) => (
               <button
@@ -84,7 +90,7 @@ export default function NewsList() {
               </button>
             )}
           </div>
-        </div>
+        </div> */}
 
         {loading ? (
           <div className="flex justify-center py-24">
@@ -101,10 +107,45 @@ export default function NewsList() {
               {articles.length} bài viết
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {articles.map((a) => (
+              {articles.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE).map((a) => (
                 <ArticleCard key={a.id} article={a} />
               ))}
             </div>
+
+            {/* Pagination */}
+            {articles.length > 0 && (
+              <div className="flex flex-wrap justify-center items-center gap-2 mt-12">
+                <button
+                  disabled={page === 1}
+                  onClick={() => { setPage((p) => p - 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                  className="px-4 py-2 rounded-full border border-gray-300 disabled:opacity-50 hover:bg-gray-50 text-sm font-medium transition-colors"
+                >
+                  Trang trước
+                </button>
+                <div className="flex gap-1">
+                  {Array.from({ length: Math.ceil(articles.length / ITEMS_PER_PAGE) }).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => { setPage(i + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                      className={`w-9 h-9 rounded-full text-sm font-semibold transition-all ${
+                        page === i + 1
+                          ? "bg-green-600 text-white shadow-md scale-105"
+                          : "text-gray-600 hover:bg-green-50"
+                      }`}
+                    >
+                      {i + 1}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  disabled={page === Math.ceil(articles.length / ITEMS_PER_PAGE)}
+                  onClick={() => { setPage((p) => p + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                  className="px-4 py-2 rounded-full border border-gray-300 disabled:opacity-50 hover:bg-gray-50 text-sm font-medium transition-colors"
+                >
+                  Trang sau
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>

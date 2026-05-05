@@ -10,6 +10,11 @@ const NAV = [
     full: "Kiến thức quản lý vận hành toà nhà",
   },
   {
+    label: "Chuyển đổi số",
+    href: "/tin-tuc?category=chuyen-doi-so",
+    full: "Chuyển đổi số",
+  },
+  {
     label: "Chuyển đổi xanh",
     href: "/tin-tuc?category=chuyen-doi-xanh",
     full: "Chuyển đổi xanh trong vận hành",
@@ -65,7 +70,7 @@ export default function Header() {
           <img
             src="/Logo.jpg"
             alt="Vận hành số - Chuyển đổi xanh"
-            className="h-10 w-auto object-contain [clip-path:inset(0_12%_0_12%)]"
+            className="h-10 w-auto object-contain [clip-path:inset(0_1%_0_1%)]"
           />
           <div className="hidden sm:block">
             <span className="block font-[family-name:var(--font-display)] text-[15px] font-extrabold text-gray-900 leading-tight tracking-tight">
