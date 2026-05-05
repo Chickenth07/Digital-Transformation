@@ -146,11 +146,11 @@ function About() {
     <section id="about" className="py-20 bg-white">
       <div className="max-w-[1200px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         {/* Image */}
-        <div className="relative">
+        <div className="relative w-fit mx-auto lg:mx-0">
           <img
-            src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&q=80"
+            src="/toa-nha.jpg"
             alt="Building"
-            className="w-full h-[440px] object-cover rounded-3xl shadow-xl"
+            className="max-h-[600px] w-auto rounded-3xl shadow-xl"
           />
           <div className="absolute -bottom-5 -right-5 flex items-center gap-3 bg-white rounded-2xl px-5 py-3.5 shadow-xl">
             <span className="text-3xl">🏆</span>
@@ -270,8 +270,8 @@ function Solutions() {
 const CATEGORIES = [
   { value: "", label: "Tất cả" },
   { value: "kien-thuc-toa-nha", label: "Kiến thức tòa nhà" },
-  { value: "chuyen-doi-so",    label: "Chuyển đổi số" },
-  { value: "chuyen-doi-xanh",  label: "Chuyển đổi xanh" },
+  { value: "chuyen-doi-so", label: "Chuyển đổi số" },
+  { value: "chuyen-doi-xanh", label: "Chuyển đổi xanh" },
 ];
 
 function NewsSection({ articles, loading }) {

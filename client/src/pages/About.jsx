@@ -73,11 +73,11 @@ export default function About() {
               Liên hệ tư vấn →
             </a>
           </div>
-          <div className="relative">
+          <div className="relative w-fit mx-auto lg:mx-0">
             <img
-              src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&q=80"
+              src="/toa-nha.jpg"
               alt="Building"
-              className="w-full h-[440px] object-cover rounded-3xl shadow-xl"
+              className="max-h-[600px] w-auto rounded-3xl shadow-xl"
             />
             <div className="absolute -bottom-5 -right-5 flex items-center gap-3 bg-white rounded-2xl px-5 py-3.5 shadow-xl">
               <span className="text-3xl">🏆</span>
