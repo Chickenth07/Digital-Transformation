@@ -65,7 +65,7 @@ export default function Header() {
           <img
             src="/Logo.jpg"
             alt="Vận hành số - Chuyển đổi xanh"
-            className="h-10 w-auto object-contain"
+            className="h-10 w-auto object-contain [clip-path:inset(0_12%_0_12%)]"
           />
           <div className="hidden sm:block">
             <span className="block font-[family-name:var(--font-display)] text-[15px] font-extrabold text-gray-900 leading-tight tracking-tight">
