@@ -6,8 +6,8 @@ import ArticleCard from "../components/ArticleCard";
 const CATEGORIES = [
   { value: "", label: "Tất cả" },
   { value: "kien-thuc-toa-nha", label: "Kiến thức tòa nhà" },
-  { value: "chuyen-doi-xanh", label: "Chuyển đổi xanh" },
-  { value: "chuyen-doi-so", label: "Chuyển đổi số" },
+  { value: "chuyen-doi-so",    label: "Chuyển đổi số" },
+  { value: "chuyen-doi-xanh",  label: "Chuyển đổi xanh" },
 ];
 
 export default function NewsList() {
