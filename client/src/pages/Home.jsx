@@ -63,12 +63,12 @@ function BannerSlider({ banners }) {
         <div className="max-w-[1200px] mx-auto px-6 w-full">
           <div key={banner.id} className="animate-fadeIn">
             {banner.title && (
-              <h2 className="font-extrabold text-white text-2xl sm:text-3xl lg:text-5xl leading-tight mb-2 drop-shadow-lg max-w-2xl">
+              <h2 className="font-extrabold text-white text-2xl sm:text-3xl lg:text-5xl leading-tight mb-2 drop-shadow-lg max-w-2xl whitespace-pre-line">
                 {banner.title}
               </h2>
             )}
             {banner.subtitle && (
-              <p className="text-white/80 text-sm sm:text-base lg:text-lg mb-5 max-w-xl leading-relaxed">
+              <p className="text-white/80 text-sm sm:text-base lg:text-lg mb-5 max-w-xl leading-relaxed whitespace-pre-line">
                 {banner.subtitle}
               </p>
             )}

@@ -650,23 +650,23 @@ function BannerModal({ banner, onSave, onClose }) {
           <div className="flex flex-col gap-4">
             <div>
               <label className={labelCls}>Tiêu đề banner *</label>
-              <input
+              <textarea
                 name="title"
                 value={form.title}
                 onChange={onChange}
                 required
                 placeholder="Tiêu đề…"
-                className={inputCls}
+                className={`${inputCls} min-h-[80px] py-3`}
               />
             </div>
             <div>
               <label className={labelCls}>Phụ đề</label>
-              <input
+              <textarea
                 name="subtitle"
                 value={form.subtitle}
                 onChange={onChange}
                 placeholder="Mô tả ngắn…"
-                className={inputCls}
+                className={`${inputCls} min-h-[80px] py-3`}
               />
             </div>
             <div>
