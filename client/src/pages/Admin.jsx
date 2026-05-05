@@ -11,13 +11,13 @@ const labelCls =
 
 const CATS = [
   { value: "kien-thuc-toa-nha", label: "Kiến thức tòa nhà" },
-  { value: "chuyen-doi-so",     label: "Chuyển đổi số" },
-  { value: "chuyen-doi-xanh",   label: "Chuyển đổi xanh" },
+  { value: "chuyen-doi-so", label: "Chuyển đổi số" },
+  { value: "chuyen-doi-xanh", label: "Chuyển đổi xanh" },
 ];
 const CAT_BADGE = {
   "kien-thuc-toa-nha": "bg-green-100 text-green-700",
-  "chuyen-doi-so":     "bg-blue-100 text-blue-700",
-  "chuyen-doi-xanh":   "bg-emerald-100 text-emerald-700",
+  "chuyen-doi-so": "bg-blue-100 text-blue-700",
+  "chuyen-doi-xanh": "bg-emerald-100 text-emerald-700",
 };
 const STATUS_BADGE = {
   new: "bg-blue-100 text-blue-700",
