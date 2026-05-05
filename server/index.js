@@ -66,20 +66,13 @@ const requireAdmin = (req, res, next) => {
   res.status(403).json({ message: "Unauthorized" });
 };
 
-const storage = multer.diskStorage({
-  destination: (_, __, cb) => cb(null, UPLOADS_DIR),
-  filename: (_, file, cb) => {
-    const ext = path.extname(file.originalname);
-    cb(null, `${uuidv4()}${ext}`);
-  },
-});
-const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
+const storage = multer.memoryStorage();
+const upload = multer({ storage, limits: { fileSize: 4 * 1024 * 1024 } });
 
 app.post("/api/upload", requireAdmin, upload.single("image"), (req, res) => {
   if (!req.file) return res.status(400).json({ message: "No file uploaded" });
-  // Use SERVER_URL env var in production, fall back to localhost in dev
-  const baseUrl = process.env.SERVER_URL || `http://localhost:${PORT}`;
-  res.json({ url: `${baseUrl}/uploads/${req.file.filename}` });
+  const base64Url = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+  res.json({ url: base64Url });
 });
 
 // Contact routes được mount bên trên qua contactRoutes

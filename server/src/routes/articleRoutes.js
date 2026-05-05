@@ -11,15 +11,8 @@ const {
 } = require("../controllers/articleController");
 
 // ── Multer config ────────────────────────────────────────────────────────────
-const UPLOADS_DIR = path.join(__dirname, "..", "..", "uploads");
-const storage = multer.diskStorage({
-  destination: (_, __, cb) => cb(null, UPLOADS_DIR),
-  filename: (_, file, cb) => {
-    const ext = path.extname(file.originalname);
-    cb(null, `${uuidv4()}${ext}`);
-  },
-});
-const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
+const storage = multer.memoryStorage();
+const upload = multer({ storage, limits: { fileSize: 4 * 1024 * 1024 } });
 
 // ── Admin auth middleware ────────────────────────────────────────────────────
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || "dt-admin-secret-token-2026";

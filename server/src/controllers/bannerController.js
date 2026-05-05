@@ -42,9 +42,10 @@ const getBannerById = async (req, res) => {
 const createBanner = async (req, res) => {
   try {
     const body = req.body;
-    const imageUrl = req.file
-      ? `${process.env.SERVER_URL || `http://localhost:${PORT}`}/uploads/${req.file.filename}`
-      : body.image || "";
+    let imageUrl = body.image || "";
+    if (req.file) {
+      imageUrl = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+    }
 
     const banner = await BannerMd.create({
       attr: {
@@ -78,7 +79,7 @@ const updateBanner = async (req, res) => {
     const patch = {};
 
     if (req.file)
-      patch.image = `${process.env.SERVER_URL || `http://localhost:${PORT}`}/uploads/${req.file.filename}`;
+      patch.image = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
     else if (body.image) patch.image = body.image;
     if (body.title !== undefined) patch.title = body.title;
     if (body.subtitle !== undefined) patch.subtitle = body.subtitle;

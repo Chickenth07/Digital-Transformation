@@ -71,9 +71,10 @@ const getArticleById = async (req, res) => {
 const createArticle = async (req, res) => {
   try {
     const body = req.body;
-    const imageUrl = req.file
-      ? `${process.env.SERVER_URL || `http://localhost:${PORT}`}/uploads/${req.file.filename}`
-      : body.image || "";
+    let imageUrl = body.image || "";
+    if (req.file) {
+      imageUrl = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+    }
 
     const slug =
       body.slug ||
@@ -130,9 +131,10 @@ const updateArticle = async (req, res) => {
       return res.status(404).json({ message: "Không tìm thấy bài viết" });
 
     const patch = {};
-    const imageUrl = req.file
-      ? `${process.env.SERVER_URL || `http://localhost:${PORT}`}/uploads/${req.file.filename}`
-      : body.image || existing.image;
+    let imageUrl = body.image || existing.image;
+    if (req.file) {
+      imageUrl = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+    }
 
     patch.image = imageUrl;
     if (body.title !== undefined) patch.title = body.title;
