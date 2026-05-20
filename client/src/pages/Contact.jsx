@@ -45,7 +45,7 @@ export default function Contact() {
       value: "info@digitaltransformation.vn",
       href: "mailto:info@digitaltransformation.vn",
     },
-    { icon: "🕐", label: "Giờ làm việc", value: "Thứ 2 – Thứ 6: 8:00 – 17:30" },
+    { icon: "▶️", label: "Kênh YouTube", value: "Vận Hành Số Chuyên Đổi Xanh", href: "https://www.youtube.com/@V%E1%BA%ACNH%C3%80NHS%E1%BB%90CHUY%E1%BB%82N%C4%90%E1%BB%94IXANH", target: "_blank" },
   ];
 
   return (
@@ -77,7 +77,7 @@ export default function Contact() {
               Thông tin liên hệ
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {infos.map(({ icon, label, value, href }) => (
+              {infos.map(({ icon, label, value, href, target }) => (
                 <div
                   key={label}
                   className="flex gap-4 items-start p-5 rounded-xl bg-gray-50 hover:bg-green-50 transition-colors"
@@ -85,14 +85,16 @@ export default function Contact() {
                   <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-white shadow-sm text-xl shrink-0">
                     {icon}
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-0.5">
                       {label}
                     </p>
                     {href ? (
                       <a
                         href={href}
-                        className="text-sm font-medium text-green-600 hover:underline"
+                        className="text-sm font-medium text-green-600 hover:underline break-all"
+                        target={target}
+                        rel={target === "_blank" ? "noopener noreferrer" : undefined}
                       >
                         {value}
                       </a>
